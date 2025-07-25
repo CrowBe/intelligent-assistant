@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAppAuth } from '../../contexts/KindeAuthContext';
 import { useChat } from '../../contexts/ChatContext';
 import { ChatSidebar } from './ChatSidebar';
 import { ChatMessages } from './ChatMessages';
 import { ChatInput } from './ChatInput';
-import { AuthModal } from '../auth/AuthModal';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export function ChatInterface() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, login } = useAppAuth();
   const { currentSession, connectionStatus } = useChat();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (!isAuthenticated) {
-    return <AuthModal />;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center p-8 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4">Authentication Required</h2>
+          <p className="text-gray-600 mb-6">Please sign in to access the chat interface.</p>
+          <button
+            onClick={login}
+            className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (

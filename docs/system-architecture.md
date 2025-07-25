@@ -1,5 +1,59 @@
 # System Architecture
 
+## Overview
+
+This document defines the complete system architecture for the AI-powered administrative assistant application. The architecture has evolved from the initial microservices design to a simplified MVP approach while maintaining clear upgrade paths for scaling.
+
+## Current State: Phase 1 Implementation
+
+**Simplified Monolithic Architecture** for MVP with clear upgrade path to microservices:
+- Frontend: Single React application with chat interface
+- Backend: Express.js API server with modular routes  
+- MCP Integration Layer: Built-in MCP agent management and execution
+- Database: SQLite initially, PostgreSQL for scale
+- External Services: OpenAI API, OAuth providers, MCP servers
+
+## Technology Stack Decisions
+
+### Frontend
+- **Framework**: React 18+ with TypeScript
+- **Styling**: Tailwind CSS for responsive design
+- **Real-time Communication**: Server-Sent Events for AI responses
+- **State Management**: React Context API + useState (no Redux/Zustand)
+- **Build Tool**: Vite for fast development
+- **Core Components**: ChatInterface, MessageBubble, InputBox, IntegrationStatus, SettingsModal
+
+### Backend
+- **Runtime**: Node.js (LTS version)
+- **Framework**: Single Express.js application with TypeScript
+- **API Design**: RESTful APIs + Server-Sent Events
+- **Validation**: Zod for input validation
+- **Testing**: Jest + Supertest
+- **Structure**: Modular routes (auth, chat, integrations, documents) in single service
+
+### AI Engine
+- **Primary AI**: OpenAI API (GPT-4/3.5-turbo) for conversational interface
+- **Fallback Models**: Hugging Face Inference API for cost optimization
+- **Intent Recognition**: Built-in prompt engineering for task classification
+- **Context Management**: Conversation memory stored in database with simple retrieval
+- **MCP Orchestration**: AI-driven selection and coordination of MCP agents
+
+### Database
+- **Development Database**: SQLite with Prisma ORM
+  - Simple file-based storage for rapid development
+  - Easy setup and deployment
+- **Production Database**: PostgreSQL 15+ (migration path planned)
+  - User profiles and business data
+  - Authentication tokens (encrypted)
+  - Chat history and context
+- **Caching**: In-memory caching initially (Redis for scale)
+
+### Authentication
+- **Protocol**: OAuth 2.0 / OpenID Connect
+- **Current**: Kinde (third-party provider) + Google OAuth for Gmail
+- **Token Storage**: Encrypted in PostgreSQL
+- **Session Management**: JWT with refresh tokens
+
 ## Architecture Overview
 
 ### High-Level Architecture

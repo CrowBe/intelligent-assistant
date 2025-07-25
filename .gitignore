@@ -84,3 +84,4 @@ Thumbs.db
 # Local development
 /tmp/
 /temp/
+intelligent-admin-firebase-adminsdk-*.json

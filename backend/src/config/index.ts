@@ -26,10 +26,15 @@ const envSchema = z.object({
   OPENAI_MAX_TOKENS: z.string().transform(Number).default('2000'),
   OPENAI_TEMPERATURE: z.string().transform(Number).default('0.7'),
   
-  // Google OAuth
+  // Google OAuth (Legacy - keeping for backwards compatibility)
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
   GOOGLE_REDIRECT_URI: z.string().url().optional(),
+  
+  // Firebase Configuration
+  FIREBASE_PROJECT_ID: z.string().optional(),
+  FIREBASE_SERVICE_ACCOUNT_KEY: z.string().optional(), // JSON string
+  FIREBASE_WEB_API_KEY: z.string().optional(),
   
   // Rate Limiting
   RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default('900000'), // 15 minutes
@@ -88,6 +93,9 @@ export const {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   GOOGLE_REDIRECT_URI,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_SERVICE_ACCOUNT_KEY,
+  FIREBASE_WEB_API_KEY,
   RATE_LIMIT_WINDOW_MS,
   RATE_LIMIT_MAX_REQUESTS,
   CORS_ORIGIN,

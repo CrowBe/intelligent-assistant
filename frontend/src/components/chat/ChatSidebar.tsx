@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAppAuth } from '../../contexts/KindeAuthContext';
 import { useChat } from '../../contexts/ChatContext';
 import { 
   PlusIcon, 
@@ -16,7 +16,7 @@ interface ChatSidebarProps {
 }
 
 export function ChatSidebar({ onClose }: ChatSidebarProps) {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAppAuth();
   const { sessions, currentSession, createSession, switchSession, deleteSession } = useChat();
 
   const handleNewChat = async () => {

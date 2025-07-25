@@ -2,41 +2,83 @@
 
 AI-powered administrative assistant for Australian trade businesses. A single-screen chat interface with MCP (Model Context Protocol) agent integration for Gmail, Calendar, and document processing.
 
-## Quick Start
+## Developer Setup Guide
+
+This setup guide enables any developer to clone the repo and resume development from the current Phase 1 state.
 
 ### Prerequisites
 - Node.js 18+ 
 - Docker & Docker Compose
 - VS Code (recommended)
 
-### Setup Development Environment
+### Quick Setup
 
-1. **Clone and setup:**
+1. **Clone repository:**
    ```bash
-   cd intelligent-assistant
-   ./scripts/setup-dev.sh
+   git clone <repo-url>
+   cd intelligent-admin
    ```
 
-2. **Configure environment:**
+2. **Install dependencies:**
    ```bash
-   cp .env.example .env
-   # Edit .env with your API keys (OpenAI, Google OAuth, etc.)
+   npm install
+   cd frontend && npm install
+   cd ../backend && npm install
    ```
 
-3. **Start development:**
+3. **Configure environment variables:**
    ```bash
-   npm run dev
+   # Copy environment template
+   cp frontend/.env.example frontend/.env
    ```
 
-4. **Open VS Code workspace:**
+4. **Set up authentication services:**
+   
+   **a) Kinde Authentication Setup:**
+   - Go to [Kinde.com](https://kinde.com) and create account
+   - Create new project: "Intelligent Assistant"
+   - Add to `frontend/.env`:
+     ```
+     VITE_KINDE_CLIENT_ID=your-kinde-client-id
+     VITE_KINDE_DOMAIN=https://yourdomain.kinde.com
+     VITE_KINDE_REDIRECT_URI=http://localhost:5173
+     VITE_KINDE_LOGOUT_URI=http://localhost:5173
+     ```
+
+   **b) Firebase + Gmail API Setup:**
+   - Go to [Firebase Console](https://console.firebase.google.com)
+   - Create project: "intelligent-admin"
+   - Enable Gmail API in Google Cloud Console
+   - Create OAuth 2.0 credentials for web application
+   - Add authorized origins: `http://localhost:5173`
+   - Add to `frontend/.env`:
+     ```
+     VITE_FIREBASE_API_KEY=your-firebase-api-key
+     VITE_FIREBASE_PROJECT_ID=your-project-id
+     VITE_FIREBASE_APP_ID=your-app-id
+     VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+     VITE_GOOGLE_CLIENT_ID=your-google-oauth-client-id
+     ```
+
+5. **Start development servers:**
    ```bash
-   code .vscode/intelligent-assistant.code-workspace
+   # Terminal 1: Backend
+   cd backend && npm run dev
+   
+   # Terminal 2: Frontend  
+   cd frontend && npm run dev
    ```
+
+6. **Verify setup:**
+   - Open http://localhost:5173
+   - Go to "Development Setup" tab
+   - All checks should show green ✅
+   - Test Gmail integration in chat interface
 
 ### Access Points
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:3000
-- **Database Studio**: `cd backend && npm run db:studio`
+- **Development Setup**: http://localhost:5173 (Setup tab)
 
 ## Development Workflow
 
@@ -78,21 +120,31 @@ npm run build        # Build for production
 └── scripts/           # Development scripts
 ```
 
-## Current Phase: Foundation & Core Chat (Weeks 1-3)
+## Current Phase: Phase 1B - Email Intelligence (In Progress)
 
-### Week 1 Tasks
-- [x] Project structure setup
-- [x] VS Code configuration
-- [x] Package.json and dependencies
-- [ ] Basic React chat interface
-- [ ] Express.js server with routes
-- [ ] SQLite database with Prisma
+### Completed (Phase 1A - Foundation)
+- ✅ Project structure setup with monorepo
+- ✅ VS Code configuration and workspace
+- ✅ Package.json and dependencies
+- ✅ Basic React chat interface
+- ✅ Express.js server with routes
+- ✅ Authentication (Kinde + Google OAuth hybrid)
+- ✅ Gmail API integration with modern Google Identity Services
+- ✅ Email analysis engine with AI-powered categorization
+- ✅ Morning digest generation with business insights
+
+### Current Development (Phase 1B)
+- ✅ Gmail OAuth integration working end-to-end
+- ✅ Email fetching and analysis services built
+- ✅ UI cleaned up to focus on core features
+- 🔄 Building email intelligence UI components
+- 🔄 User preference storage for email settings
 
 ### Next Steps
-1. Set up OpenAI API integration
-2. Create basic chat interface components
-3. Implement JWT authentication
-4. Build first MCP agent (Gmail)
+1. Build Email Intelligence dashboard UI
+2. Create Morning Digest viewer component
+3. Add email categorization interface
+4. Implement user preferences for email analysis
 
 ## Business Context
 
@@ -136,12 +188,41 @@ interface MCPAgent {
 - Use Copilot Chat for coding assistance
 - Review `.ai/development-context.md` for project context
 
-## API Keys Required
+## Environment Variables Reference
 
-Add these to your `.env` file:
-- `OPENAI_API_KEY` - OpenAI API access
-- `GOOGLE_CLIENT_ID` & `GOOGLE_CLIENT_SECRET` - Gmail/Calendar integration
-- `JWT_SECRET` - Authentication (generate secure random string)
+### Required for Development
+```bash
+# Kinde Authentication
+VITE_KINDE_CLIENT_ID=your-kinde-client-id
+VITE_KINDE_DOMAIN=https://yourdomain.kinde.com
+VITE_KINDE_REDIRECT_URI=http://localhost:5173
+VITE_KINDE_LOGOUT_URI=http://localhost:5173
+
+# Firebase Configuration  
+VITE_FIREBASE_API_KEY=your-firebase-api-key
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_APP_ID=your-app-id
+VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+VITE_FIREBASE_VAPID_KEY=your-vapid-key
+
+# Google OAuth for Gmail API
+VITE_GOOGLE_CLIENT_ID=your-google-oauth-client-id
+
+# API Configuration
+VITE_API_BASE_URL=http://localhost:3000
+VITE_WEBSOCKET_URL=ws://localhost:3000
+```
+
+### Optional Configuration
+```bash
+# Feature Flags
+VITE_ENABLE_DEBUG=true
+VITE_ENABLE_MOCK_API=false
+
+# UI Configuration  
+VITE_DEFAULT_THEME=light
+VITE_ENABLE_DARK_MODE=true
+```
 
 ---
 
